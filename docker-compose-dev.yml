@@ -2,11 +2,10 @@ version: "3"
 
 services:
   django-app:
-    env_file:
-      - .env
     build:
       context: .
       dockerfile: Dockerfile.dev
+    container_name: django
     ports:
       - "8000:8000"
     volumes:
@@ -17,8 +16,16 @@ services:
              python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=poke
+      - DB_USER=postgres
+      - DB_PASS=Empresarial
 
   db:
     image: postgres:10-alpine
-    env_file:
-      - .env
+    container_name: poke-db
+    environment:
+      - POSTGRES_DB=poke
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Empresarial

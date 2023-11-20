@@ -20,6 +20,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("berries/", include("apps.poke.urls")),
 ]
 
 if settings.DEBUG:
@@ -32,7 +33,11 @@ if settings.DEBUG:
     urlpatterns += [
         path("silk/", include("silk.urls", namespace="silk")),
         path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-        path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="api-docs"),
+        path(
+            "api/docs/",
+            SpectacularSwaggerView.as_view(url_name="schema"),
+            name="api-docs",
+        ),
         path(
             "api/schema/redoc/",
             SpectacularRedocView.as_view(url_name="schema"),
