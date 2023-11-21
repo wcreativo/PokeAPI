@@ -1,6 +1,13 @@
 version: "3"
 
 services:
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    ports:
+      - "6739:6739"
+    networks:
+      - networkPoke
   django-app:
     build:
       context: .
@@ -16,11 +23,14 @@ services:
              python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
+      - redis
     environment:
       - DB_HOST=db
       - DB_NAME=poke
       - DB_USER=postgres
       - DB_PASS=Empresarial
+    networks:
+      - networkPoke
 
   db:
     image: postgres:10-alpine
@@ -29,3 +39,8 @@ services:
       - POSTGRES_DB=poke
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Empresarial
+    networks:
+      - networkPoke
+
+networks:
+  networkPoke:

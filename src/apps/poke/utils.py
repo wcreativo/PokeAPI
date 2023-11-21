@@ -1,4 +1,7 @@
+import json
+
 import numpy as np
+import redis
 import requests
 
 
@@ -19,14 +22,32 @@ def get_all_berry():
 
 
 def get_all_berries_info():
-    berries = get_all_berry()
+    # Check if berries list is on redis
+    redis_client = redis.StrictRedis(host="redis", port=6379, db=0, decode_responses=True)
+    berries = redis_client.get("berries")
+
+    if berries:
+        berries = json.loads(berries)
+    else:
+        berries = get_all_berry()
+        redis_client.set("berries", json.dumps(berries))
+
     names = [berry["name"] for berry in berries]
-    growth_times = []
-    for berry in berries:
-        response = requests.get(berry["url"])
-        if response.status_code == 200:
-            data = response.json()
-            growth_times.append(data["growth_time"])
+
+    # Check if growth_times list is on redis
+    growth_times = redis_client.get("growth_times")
+
+    if growth_times:
+        growth_times = json.loads(growth_times)
+    else:
+        growth_times = []
+        for berry in berries:
+            response = requests.get(berry["url"])
+            if response.status_code == 200:
+                data = response.json()
+                growth_times.append(data["growth_time"])
+
+        redis_client.set("growth_times", json.dumps(growth_times))
 
     return names, growth_times
 
