@@ -1,2 +1,6 @@
 django-silk
 drf-spectacular>=0.26.5,<0.26.6
+pytest
+pytest-django
+pylint
+flake8

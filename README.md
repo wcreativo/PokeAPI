@@ -27,6 +27,12 @@ Poke-berries statistics API.
     docker-compose up --build
     ```
 
+### Testing
+
+```bash
+docker exec -it django pytest
+```
+
 ### Access Information
 
 * The server will be available at http://localhost:8000
@@ -38,3 +44,5 @@ Poke-berries statistics API.
 * DRF
 * Docker
 * Postgres
+* Redis
+* Numpy

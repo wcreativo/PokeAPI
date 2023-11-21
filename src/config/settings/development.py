@@ -29,3 +29,7 @@ MIDDLEWARE.insert(1, "silk.middleware.SilkyMiddleware")
 REST_FRAMEWORK["DEFAULT_SCHEMA_CLASS"] = "drf_spectacular.openapi.AutoSchema"
 
 STATIC_URL = "static/"
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = "/src/media/"

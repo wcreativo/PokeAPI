@@ -33,7 +33,7 @@ services:
       - networkPoke
 
   db:
-    image: postgres:10-alpine
+    image: postgres:12-alpine
     container_name: poke-db
     environment:
       - POSTGRES_DB=poke

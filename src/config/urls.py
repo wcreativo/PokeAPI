@@ -20,10 +20,11 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("berries/", include("apps.poke.urls")),
+    path("", include("apps.poke.urls")),
 ]
 
 if settings.DEBUG:
+    from django.conf.urls.static import static
     from drf_spectacular.views import (
         SpectacularAPIView,
         SpectacularRedocView,
@@ -44,3 +45,5 @@ if settings.DEBUG:
             name="redoc",
         ),
     ]
+
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
